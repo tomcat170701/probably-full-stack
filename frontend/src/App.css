@@ -17,15 +17,16 @@ body {
 /* Navbar Styles */
 nav {
   background-color: #007bff;
-  padding: 10px 0;
+  padding: 0;
   margin-bottom: 20px;
+  height: 60px; /* Fixed height of the navbar */
 }
 
 nav ul {
   list-style: none;
   display: flex;
-  justify-content: space-between;
-  align-items: center;  /* Ensure the items are vertically centered */
+  justify-content: space-between; /* Space between title and buttons */
+  align-items: center; /* Ensure the items are vertically centered */
   margin: 0;
   padding: 0;
 }
@@ -34,6 +35,9 @@ nav .title {
   color: white;
   font-weight: bolder;
   font-size: xx-large;
+  padding: 7px 20px; /* Same padding as other buttons */
+  display: flex;
+  align-items: center;
 }
 
 nav ul li {
@@ -44,15 +48,52 @@ nav ul li a {
   text-decoration: none;
   color: white;
   font-weight: bold;
-  padding: 18px 20px;  /* Adjust padding to vertically center the text */
+  /* padding: 18px 20px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Make the link take full height of the navbar */
   background-color: #0056b3;
-  line-height: 1.5;    /* Adjust the line height for vertical alignment */
   transition: background-color 0.3s ease;
 }
 
-nav ul li a:hover {
+/* Right-aligned button container */
+.nav-actions {
+  display: flex;
+  gap: 0px; /* Remove gap between buttons */
+  align-items: stretch; /* Make sure the buttons take full navbar height */
+}
+
+.nav-actions a{
+  padding: 20px 20px; /* Ensure consistent padding across all buttons */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30.5%; /* Make the buttons take full height of the navbar */
+  background-color: #0056b3;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+
+.nav-actions a:hover,
+.nav-actions button:hover {
   background-color: #003f7f;
 }
+
+.nav-actions a + a,
+.nav-actions button + a,
+.nav-actions a + button {
+  margin-left: -1px; /* Remove space between buttons */
+}
+
+
+
 
 /* PostList Styles */
 ul {
@@ -96,6 +137,17 @@ ul {
 .post-item h3 a:hover {
   text-decoration: none; /* Ensure no underline on hover */
 }
+
+.post-meta {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.post-meta span {
+  margin-right: 10px;
+}
+
 
 /* Form Styles */
 form {
@@ -223,4 +275,13 @@ form {
   font-size: 14px;
   color: #555;
   margin-bottom: 20px;  /* Space between the meta info and post content */
+}
+
+.password{ /* use this for all form styling */
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
