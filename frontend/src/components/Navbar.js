@@ -18,20 +18,30 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
                 <li className='title'>
                     Blog App
                 </li>
-                <div className='nav-actions'>
+                <div className="nav-actions">
+                    {/* Always show All Posts */}
                     <li>
                         <Link to="/">All Posts</Link>
                     </li>
-                    <li>
-                        <Link to="/create">Create Post</Link>
-                    </li>
-                    <li>
-                        {isAuthenticated ? (
-                            <Link to='/login' onClick={handleLogout}>Logout</Link>
-                        ) : (
+
+                    {/* Only show Create Post and Logout if authenticated */}
+                    {isAuthenticated && (
+                        <>
+                            <li>
+                                <Link to="/create">Create Post</Link>
+                            </li>
+                            <li>
+                                <Link to='/login' onClick={handleLogout}>Logout</Link>
+                            </li>
+                        </>
+                    )}
+
+                    {/* Show Login if not authenticated */}
+                    {!isAuthenticated && (
+                        <li>
                             <Link to="/login">Login</Link>
-                        )}
-                    </li>
+                        </li>
+                    )}
                 </div>
             </ul>
         </nav>
@@ -39,6 +49,7 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
 };
 
 export default Navbar;
+
 
 
 

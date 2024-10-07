@@ -1,46 +1,41 @@
 import React, { useState } from 'react';
 import axios from '../axiosConfig';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({ setIsAuthenticated }) => {
+const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null); // Reset any previous errors
-    
+        setError(null);
+        setSuccess(null);
+
         try {
-            const response = await axios.post('/login/', {
-                username: username,
-                password: password,
+            await axios.post('/register/', {
+                username,
+                password,
             });
-    
-            // Extract tokens and username from response
-            const { access, refresh } = response.data;
-    
-            // Store tokens and username in localStorage
-            localStorage.setItem('accessToken', access);
-            localStorage.setItem('refreshToken', refresh);
-            localStorage.setItem('username', username);  // Store the logged-in username
-    
-            // Set authentication state to true
-            setIsAuthenticated(true);
-    
-            // Redirect to the home page after successful login
-            navigate('/');
+
+            setSuccess('User registered successfully!');
+            setUsername('');
+            setPassword('');
+
+            // Redirect to login page after a successful registration
+            setTimeout(() => navigate('/login'), 2000);
         } catch (err) {
-            setError('Invalid username or password');
+            setError('Error registering user. Please try again.');
         }
     };
-    
 
     return (
-        <div className="login-container">
-            <h2>Login</h2>
+        <div className="register-container">
+            <h2>Register</h2>
             {error && <p className="error">{error}</p>}
+            {success && <p className="success">{success}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Username:</label>
@@ -61,14 +56,12 @@ const Login = ({ setIsAuthenticated }) => {
                         className='password'
                     />
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
             </form>
-
-            <p>
-                Don't have an account? <Link to="/register">Register here.</Link>
-            </p>
         </div>
     );
 };
 
-export default Login;
+export default Register;
+
+

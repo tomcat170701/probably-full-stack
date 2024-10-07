@@ -6,6 +6,8 @@ import PostForm from './components/PostForm';
 import PostDetail from './components/PostDetail';
 import EditPost from './components/EditPost';
 import Login from './components/Login';
+import Register from './components/Register';
+import PrivateRoute from './components/PrivateRoute'; // Import PrivateRoute
 import './App.css'
 
 function App() {
@@ -20,13 +22,39 @@ function App() {
     return (
         <Router>
             <div className="App">
-                <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} /> {/* Pass props */}
+                <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
                 <Routes>
                     <Route path="/" element={<PostList />} />
-                    <Route path="/create" element={<PostForm />} />
-                    <Route path="/posts/:id" element={<PostDetail />} />
-                    <Route path="/posts/:id/edit" element={<EditPost />} />
+                    
+                    {/* Protect CreatePost, PostDetail, and EditPost with PrivateRoute */}
+                    <Route 
+                        path="/create" 
+                        element={
+                            <PrivateRoute>
+                                <PostForm />
+                            </PrivateRoute>
+                        } 
+                    />
+                    <Route 
+                        path="/posts/:id" 
+                        element={
+                            <PrivateRoute>
+                                <PostDetail />
+                            </PrivateRoute>
+                        } 
+                    />
+                    <Route 
+                        path="/posts/:id/edit" 
+                        element={
+                            <PrivateRoute>
+                                <EditPost />
+                            </PrivateRoute>
+                        } 
+                    />
+                    
+                    {/* Public routes for Login and Register */}
                     <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path="/register" element={<Register />} />
                 </Routes>
             </div>
         </Router>
@@ -34,3 +62,4 @@ function App() {
 }
 
 export default App;
+
