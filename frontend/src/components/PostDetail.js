@@ -50,9 +50,25 @@ const PostDetail = () => {
                         <span> Created: {new Date(post.created_at).toLocaleDateString()}</span> | 
                         <span> Updated: {new Date(post.updated_at).toLocaleDateString()}</span>
                     </div>
+
+                    {/* Display the image if it exists */}
+                    {post.image && (
+                        <div>
+                            <img
+                                src={post.image} 
+                                alt={post.title} 
+                                style={{ width: '100%', maxWidth: '600px', marginTop: '20px', borderRadius: '2px'}}
+                            />
+                        </div>
+                    )}
+                    
+                    {/* Display the post content */}
                     <p>{post.content}</p>
-                    
-                    
+
+
+
+
+                    {/* Show edit and delete buttons if the logged-in user is the author */}
                     {isAuthor && (
                         <div className='post-buttons'>
                             <button onClick={() => navigate(`/posts/${id}/edit`)} className='edit-btn'>Edit Post</button>

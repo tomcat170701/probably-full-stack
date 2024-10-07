@@ -5,20 +5,32 @@ import axios from '../axiosConfig';
 const PostForm = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const navigate = useNavigate()
+    const [image, setImage] = useState(null); // State to handle image file
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const post = { title, content };
 
-        // Make POST request to create a new post
+        const formData = new FormData(); // Create FormData to handle file upload
+        formData.append('title', title);
+        formData.append('content', content);
+        if (image) {
+            formData.append('image', image); // Append the image if it exists
+        }
+
+        // Make POST request to create a new post with image
         axios
-            .post('/posts/', post)
+            .post('/posts/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Set the correct headers
+                },
+            })
             .then(response => {
                 console.log('Post created:', response.data);
                 setTitle('');
                 setContent('');
-                navigate('/')
+                setImage(null); // Reset the image field
+                navigate('/');
             })
             .catch(error => {
                 console.error('There was an error creating the post', error);
@@ -34,7 +46,7 @@ const PostForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
             <h2>Create a New Post</h2>
             <div>
                 <label>Title:</label>
@@ -53,9 +65,18 @@ const PostForm = () => {
                     onKeyDown={handleKeyDown} // Handle Enter key press
                 />
             </div>
+            <div>
+                <label>Image:</label>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImage(e.target.files[0])} // Set the image state on file select
+                />
+            </div>
             <button type="submit">Create Post</button>
         </form>
     );
-}
+};
 
 export default PostForm;
+
